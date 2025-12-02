@@ -8,6 +8,36 @@ class NoteBookApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: Colors.grey,
+          filled: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(color:Colors.greenAccent,width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(color:Colors.greenAccent,width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(color:Colors.greenAccent,width: 2),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              // fixedSize: Size(double.infinity, 15),
+              minimumSize: Size(double.infinity, 40)
+          ),
+        )
+      ),
       home: SplashScreen(),
     );
   }
