@@ -9,8 +9,10 @@ class NoteBookApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        inputDecorationTheme: InputDecorationTheme(
-          fillColor: Colors.grey,
+          textTheme: TextTheme(titleLarge: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+
+          inputDecorationTheme: InputDecorationTheme(
+          fillColor: Colors.grey[350],
           filled: true,
           contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
           border: OutlineInputBorder(
@@ -26,7 +28,7 @@ class NoteBookApp extends StatelessWidget {
             borderSide: BorderSide(color:Colors.greenAccent,width: 2),
           ),
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
+          elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,

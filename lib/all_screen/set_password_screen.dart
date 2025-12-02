@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:note_book_app/all_screen/email_adress_screen.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SetPasswordScreen extends StatefulWidget {
+  const SetPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SetPasswordScreenState extends State<SetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,31 +20,33 @@ class _LoginScreenState extends State<LoginScreen> {
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Get Started With",
+                "Set Password",
                 style: TextTheme.of(context).titleLarge,
+              ),
+              SizedBox(height: 15,),
+              Text(
+                "Minimum length password 8 character with \n Latter and number combination",
+                style: TextStyle(fontSize: 17,color: Colors.grey),
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 30),
               TextField(
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(hintText: "Enter your email"),
+                decoration: InputDecoration(hintText: "Enter password"),
               ),
               SizedBox(height: 15),
               TextField(
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(hintText: "Enter your password"),
+                decoration: InputDecoration(hintText: "Enter confirm password"),
               ),
               SizedBox(height: 20),
               // ElevatedButton(
               //   onPressed: () {},
               //   child: Text("Login"),
               // ),
-              ElevatedButton.icon(onPressed: (){}, label: Text("Login"),icon: Icon(Icons.login),),
+              ElevatedButton.icon(onPressed: (){},label:Text("Confirm")),
               SizedBox(height: 50),
-              TextButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EmailAddressScreen()));
-              }, child: Text("Forget Password",style: TextStyle(color:Colors.grey),),),
-              SizedBox(height: 7),
-              RichText1(text1: "Don't have account?"),
+              RichText1(text1: "Have account?",text2: ' Sign in',),
             ],
           ),
         ),
