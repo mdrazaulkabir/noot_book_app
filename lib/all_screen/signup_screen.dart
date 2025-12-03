@@ -55,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // ),
               ElevatedButton.icon(onPressed: (){}, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
               SizedBox(height: 50),
-              RichText1(text1: "Have account?",),
+              RichText1(text1: "Have account?",text2: "Sign in",),
             ],
           ),
         ),

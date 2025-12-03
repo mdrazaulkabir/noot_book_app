@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:note_book_app/all_screen/email_adress_screen.dart';
+import 'package:note_book_app/all_screen/signup_screen.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>EmailAddressScreen()));
               }, child: Text("Forget Password",style: TextStyle(color:Colors.grey),),),
               SizedBox(height: 7),
-              RichText1(text1: "Don't have account?"),
+              RichText1(text1: "Don't have account?",text2: " Sign up",onTap:() {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
+              },),
             ],
           ),
         ),
