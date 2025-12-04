@@ -3,7 +3,7 @@ import 'package:note_book_app/custom_widget/rich_text1.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   const SetPasswordScreen({super.key});
-
+  static final String name='setPasswordScreen';
   @override
   State<SetPasswordScreen> createState() => _SetPasswordScreenState();
 }
@@ -44,7 +44,9 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
               //   onPressed: () {},
               //   child: Text("Login"),
               // ),
-              ElevatedButton.icon(onPressed: (){},label:Text("Confirm")),
+              ElevatedButton.icon(onPressed: (){
+                _verifyButton();
+              },label:Text("Confirm")),
               SizedBox(height: 50),
               RichText1(text1: "Have account?",text2: ' Sign in',),
             ],
@@ -52,5 +54,8 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
         ),
       ),
     );
+  }
+  void _verifyButton(){
+
   }
 }

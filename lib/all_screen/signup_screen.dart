@@ -3,6 +3,7 @@ import 'package:note_book_app/custom_widget/rich_text1.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+  static final String name='signup';
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -53,7 +54,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               //   onPressed: () {},
               //   child: Text("Login"),
               // ),
-              ElevatedButton.icon(onPressed: (){}, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
+              ElevatedButton.icon(onPressed: (){
+                _signUPButton();
+              }, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
               SizedBox(height: 50),
               RichText1(text1: "Have account?",text2: "Sign in",),
             ],
@@ -61,5 +64,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+  void _signUPButton(){
+
   }
 }

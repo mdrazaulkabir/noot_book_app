@@ -5,7 +5,7 @@ import 'package:note_book_app/custom_widget/rich_text1.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
-
+  static final String name='signInScreen';
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -40,19 +40,47 @@ class _SignInScreenState extends State<SignInScreen> {
               //   onPressed: () {},
               //   child: Text("Login"),
               // ),
-              ElevatedButton.icon(onPressed: (){}, label: Text("Login"),icon: Icon(Icons.login),),
+              ElevatedButton.icon(
+                onPressed: () {},
+                label: Text("Login"),
+                icon: Icon(Icons.login),
+              ),
               SizedBox(height: 50),
-              TextButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EmailAddressScreen()));
-              }, child: Text("Forget Password",style: TextStyle(color:Colors.grey),),),
+
+
+              TextButton(
+                onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>EmailAddressScreen()));
+                  _forgetButton();
+                },
+                child: Text(
+                  "Forget Password",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
               SizedBox(height: 7),
-              RichText1(text1: "Don't have account?",text2: " Sign up",onTap:() {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
-              },),
+              RichText1(
+                text1: "Don't have account?",
+                text2: " Sign up",
+                onTap: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()),);
+                  _signUPButton();
+                },
+              ),
             ],
           ),
         ),
       ),
     );
   }
+  void _loginButton(){
+
+  }
+  void _forgetButton(){
+    Navigator.pushReplacementNamed(context, EmailAddressScreen.name);
+  }
+  void _signUPButton(){
+    Navigator.pushReplacementNamed(context, SignUpScreen.name);
+  }
+
 }

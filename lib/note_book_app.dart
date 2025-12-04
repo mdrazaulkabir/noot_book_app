@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:note_book_app/all_screen/email_adress_screen.dart';
+import 'package:note_book_app/all_screen/pin_verification_screen.dart';
+import 'package:note_book_app/all_screen/set_password_screen.dart';
+import 'package:note_book_app/all_screen/signin_screen.dart';
+import 'package:note_book_app/all_screen/signup_screen.dart';
 import 'package:note_book_app/splash_screen.dart';
 
 class NoteBookApp extends StatelessWidget {
@@ -40,7 +45,16 @@ class NoteBookApp extends StatelessWidget {
           ),
         )
       ),
-      home: SplashScreen(),
+     // home: SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/':(context)=>SplashScreen(),
+        SignInScreen.name:(context)=>SignInScreen(),
+        EmailAddressScreen.name:(context)=>EmailAddressScreen(),
+        PinVerificationScreen.name:(context)=>PinVerificationScreen(),
+        SetPasswordScreen.name:(context)=>SetPasswordScreen(),
+        SignUpScreen.name:(context)=>SignUpScreen(),
+      },
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:note_book_app/custom_widget/rich_text1.dart';
 
 class EmailAddressScreen extends StatefulWidget {
   const EmailAddressScreen({super.key});
-
+  static final String name='emailAddressScreen';
   @override
   State<EmailAddressScreen> createState() => _EmailAddressScreenState();
 }
@@ -42,7 +42,8 @@ class _EmailAddressScreenState extends State<EmailAddressScreen> {
               //   child: Text("Login"),
               // ),
               ElevatedButton.icon(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>PinVerificationScreen()));
+               // Navigator.push(context, MaterialPageRoute(builder: (context)=>PinVerificationScreen()));
+                _onTapEmailAddress();
               }, label:Icon(Icons.arrow_circle_right_outlined,size: 30,),),
               SizedBox(height: 50),
               RichText1(text1: "Have account?",text2: ' Sign in',),
@@ -51,5 +52,8 @@ class _EmailAddressScreenState extends State<EmailAddressScreen> {
         ),
       ),
     );
+  }
+  void _onTapEmailAddress(){
+    Navigator.pushReplacementNamed(context, PinVerificationScreen.name);
   }
 }

@@ -37,7 +37,7 @@
 // }
 
 /*
-   vvi => Flutter developers often avoid TapGestureRecognizer unless necessary because:
+   vvi => Flutter developers often avoid "recognizer: TapGestureRecognizer" unless necessary because:
    * Risk of memory leaks if not disposed properly              //vvi
    * More boilerplate code                                      //vvi
    * Harder to read / maintain
@@ -70,12 +70,9 @@ class RichText1 extends StatelessWidget {
           style: const TextStyle(color: Colors.black),
         ),
         GestureDetector(
-          onTap: onTap ??
-                  () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()),
-                );
+          onTap: onTap ?? () {
+            //Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+            Navigator.pushReplacementNamed(context, SignInScreen.name);
               },
           child: Text(
             text2 ?? " Sign in",

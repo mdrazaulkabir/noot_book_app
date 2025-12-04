@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:note_book_app/all_screen/signin_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  static final String name="SplashScreen";
   const SplashScreen({super.key});
 
   @override
@@ -15,7 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), (){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
+     // Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
+      Navigator.pushReplacementNamed(context, SignInScreen.name);
     });
   }
   @override
