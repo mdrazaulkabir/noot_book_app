@@ -72,6 +72,14 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
     );
   }
   void _setPassword(){
+    String pin=pinTEController.text.trim();
+    if(pin.isEmpty||pin.length!=6){
+      return _showMessage("Enter your valid 6 pin number");
+    }
     Navigator.pushReplacementNamed(context, SetPasswordScreen.name);
+  }
+
+  void _showMessage(String msg){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 }
