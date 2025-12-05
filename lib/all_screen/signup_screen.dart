@@ -10,62 +10,131 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController emailTEController=TextEditingController();
+  final TextEditingController fistNTEController=TextEditingController();
+  final TextEditingController lastNTEController=TextEditingController();
+  final TextEditingController mobileTEController=TextEditingController();
+  final TextEditingController passwordTEController=TextEditingController();
+  final GlobalKey<FormState>_formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Join With Us",
-                style: TextTheme.of(context).titleLarge,
-              ),
-              SizedBox(height: 30),
-              TextField(
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(hintText: "Enter your email:"),
-              ),
-              SizedBox(height: 15),
-              TextField(
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(hintText: "Enter your fist name:"),
-              ),
-              SizedBox(height: 15),
-              TextField(
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(hintText: "Enter your last name:"),
-              ),
-              SizedBox(height: 15),
-              TextField(
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(hintText: "Enter your mobile number:"),
-              ),
-              SizedBox(height: 15),
-              TextField(
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(hintText: "Enter your password:"),
-              ),
-              SizedBox(height: 20),
-              // ElevatedButton(
-              //   onPressed: () {},
-              //   child: Text("Login"),
-              // ),
-              ElevatedButton.icon(onPressed: (){
-                _signUPButton();
-              }, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
-              SizedBox(height: 50),
-              RichText1(text1: "Have account?",text2: "Sign in",),
-            ],
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Join With Us",
+                  style: TextTheme.of(context).titleLarge,
+                ),
+                SizedBox(height: 30),
+                TextFormField(
+                  controller: emailTEController,
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return 'Enter valid email';
+                    }
+                    else if(!value.contains('@')||!value.contains('.')){
+                      return "Missing sign '@' and '.' ";
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(hintText: "Enter your email:"),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: fistNTEController,
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return 'Enter valid first name';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(hintText: "Enter your fist name:"),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: lastNTEController,
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return 'Enter valid last name';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(hintText: "Enter your last name:"),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: mobileTEController,
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return 'Enter valid mobile number';
+                    }
+                    else if(value.length!=11){
+                      return 'Mobile number must be 11 digit';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(hintText: "Enter your mobile number:"),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: passwordTEController,
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return 'Enter valid password!';
+                    }
+                    else if(value.length<6||value.length>12){
+                      return 'Password must be 6 to 12 character';
+                    }
+                    else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)').hasMatch(value)) { //this collect by online
+                      return "Password must contain both letters and numbers";
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(hintText: "Enter your password:"),
+                ),
+                SizedBox(height: 20),
+                // ElevatedButton(
+                //   onPressed: () {},
+                //   child: Text("Login"),
+                // ),
+                ElevatedButton.icon(onPressed: (){
+                  _signUPButton();
+                }, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
+                SizedBox(height: 50),
+                RichText1(text1: "Have account?",text2: "Sign in",),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
   void _signUPButton(){
-
+    if(_formKey.currentState!.validate()){
+      //navigator
+    }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailTEController.dispose();
+    fistNTEController.dispose();
+    lastNTEController.dispose();
+    mobileTEController.dispose();
+    passwordTEController.dispose();
   }
 }
