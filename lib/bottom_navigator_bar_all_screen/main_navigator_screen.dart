@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:note_book_app/all_screen/signin_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/add_new_task.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/cancel_screen.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/complete_screen.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/new_task_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/profile_update_screen.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/progress_screen.dart';
+import 'package:note_book_app/custom_widget/appBar_navigator.dart';
 class MainNavigatorScreen extends StatefulWidget {
   const MainNavigatorScreen({super.key});
   static final String name='navigatorScreen';
@@ -18,32 +20,9 @@ class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.greenAccent,
-                //backgroundImage: Icon(Icons.error),
-              ),
-            ),
-            Column(
-              children: [
-                Text("Razaul Kabir",style:TextStyle(fontSize: 20,color: Colors.white),),
-                Text("RazaulKabir@gmail.com",style:TextStyle(fontSize: 10,color: Colors.white),)
-
-              ],
-            ),
-            Spacer(),
-            IconButton(onPressed: (){
-              _logoutButton();
-            }, icon: Icon(Icons.logout))
-          ],
-        ),
-      ),
+      //AppbarNavigator(), //vvi you can take like this way because scaffold can't take this type of parameter
+      //vvi
+      appBar: PreferredSize(preferredSize: Size.fromHeight(kToolbarHeight), child: AppbarNavigator()),
       body: navigatorScreen[_selectedScreen],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
@@ -77,9 +56,16 @@ class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: (){
+          _floatingActionButton();
+        },
+        child: Icon(Icons.edit,color: Colors.greenAccent,),
+      ),
     );
   }
-  void _logoutButton(){
-    Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate)=>false);
+  void _floatingActionButton(){
+    Navigator.pushNamed(context,ProfileUpdateScreen.name);
   }
 }

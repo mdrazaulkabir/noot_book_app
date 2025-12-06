@@ -4,7 +4,9 @@ import 'package:note_book_app/all_screen/pin_verification_screen.dart';
 import 'package:note_book_app/all_screen/set_password_screen.dart';
 import 'package:note_book_app/all_screen/signin_screen.dart';
 import 'package:note_book_app/all_screen/signup_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/add_new_task.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/main_navigator_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/profile_update_screen.dart';
 import 'package:note_book_app/splash_screen.dart';
 
 class NoteBookApp extends StatelessWidget {
@@ -56,6 +58,8 @@ class NoteBookApp extends StatelessWidget {
         SetPasswordScreen.name:(context)=>SetPasswordScreen(),
         SignUpScreen.name:(context)=>SignUpScreen(),
         MainNavigatorScreen.name:(context)=>MainNavigatorScreen(),
+        AddNewTask.name:(context)=>AddNewTask(),
+        ProfileUpdateScreen.name:(context)=>ProfileUpdateScreen()
       },
     );
   }
