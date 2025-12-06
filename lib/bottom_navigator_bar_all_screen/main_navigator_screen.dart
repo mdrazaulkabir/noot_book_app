@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:note_book_app/all_screen/signin_screen.dart';
-import 'package:note_book_app/bottom_navigator_bar_all_screen/new_page_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/cancel_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/complete_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/new_task_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/progress_screen.dart';
 class MainNavigatorScreen extends StatefulWidget {
   const MainNavigatorScreen({super.key});
   static final String name='navigatorScreen';
@@ -10,8 +13,8 @@ class MainNavigatorScreen extends StatefulWidget {
 }
 
 class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
-  final List<Widget>navigatorScreen=[];
-  final int _selectedScreen=0;
+  final List<Widget>navigatorScreen=[NewTaskScreen(),CompleteScreen(),CancelScreen(),ProgressScreen()];
+  late int _selectedScreen=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,36 +44,36 @@ class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
           ],
         ),
       ),
-      body: NewPageScreen(),
+      body: navigatorScreen[_selectedScreen],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
-          value = _selectedScreen;
+          _selectedScreen=value;
           setState(() {});
         },
         currentIndex: _selectedScreen,
-        // backgroundColor: Colors.grey,
-        // selectedItemColor: Colors.green,
-        // unselectedItemColor: Colors.white,
+        backgroundColor: Colors.grey,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white,
         items: [
           BottomNavigationBarItem(
-             backgroundColor: Colors.greenAccent,
+             // backgroundColor: Colors.greenAccent,
             icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
             label: "New Task",
           ),
           BottomNavigationBarItem(
-             backgroundColor: Colors.greenAccent,
+             // backgroundColor: Colors.greenAccent,
             icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
-            label: "New Task",
-          ),
-          BottomNavigationBarItem(
-            // backgroundColor: Colors.greenAccent,
-            icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
-            label: "New Task",
+            label: "Complete",
           ),
           BottomNavigationBarItem(
             // backgroundColor: Colors.greenAccent,
             icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
-            label: "New Task",
+            label: "Cancel",
+          ),
+          BottomNavigationBarItem(
+            // backgroundColor: Colors.greenAccent,
+            icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
+            label: "Progress",
           ),
         ],
       ),
