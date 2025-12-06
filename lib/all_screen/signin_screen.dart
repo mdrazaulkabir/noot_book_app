@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_book_app/all_screen/email_adress_screen.dart';
 import 'package:note_book_app/all_screen/signup_screen.dart';
+import 'package:note_book_app/bottom_navigator_bar_all_screen/main_navigator_screen.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -103,6 +104,7 @@ class _SignInScreenState extends State<SignInScreen> {
     if(_formKey.currentState!.validate()){
      //navigator another page
     }
+    Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
   }
   void _forgetButton(){
     Navigator.pushReplacementNamed(context, EmailAddressScreen.name);
