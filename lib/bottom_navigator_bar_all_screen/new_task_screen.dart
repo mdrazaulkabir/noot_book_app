@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_book_app/custom_widget/display_card.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
@@ -42,34 +43,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             child: ListView.builder(
                 itemCount: 20,       //vvi =>when you not give the itemCount that time we need to Expended also need in api because we don't know the api length
                 itemBuilder: (context,index){
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      elevation: 14,
-                      child: Column(
-                        crossAxisAlignment:CrossAxisAlignment.start,
-                        children: [
-                          Text("Title",style: TextStyle(fontSize:20, color: Colors.black),),
-                          Text("Description",style: TextStyle(fontSize:12, color: Colors.grey),),
-                          Text("Date: 02/12/2025",style: TextStyle(fontSize:12, color: Colors.grey,fontWeight: FontWeight.bold),),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Chip(label: Text('New'),
-                                backgroundColor: Colors.greenAccent,
-                                elevation: 10,
-                              ),
-                              Spacer(),
-                              IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: Colors.greenAccent,)),
-                              IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever,color: Colors.redAccent,))
-
-                            ],
-                          )
-                        ],
-
-                      ),
-                    ),
-                  );
+                  return DisplayCard();
                 }),
           ),
         ],
