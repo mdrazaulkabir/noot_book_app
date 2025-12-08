@@ -43,7 +43,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             child: ListView.builder(
                 itemCount: 20,       //vvi =>when you not give the itemCount that time we need to Expended also need in api because we don't know the api length
                 itemBuilder: (context,index){
-                  return DisplayCard();
+                  return DisplayCard(textType: TextType.tNew,);
                 }),
           ),
         ],

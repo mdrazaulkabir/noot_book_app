@@ -3,7 +3,6 @@ import 'package:note_book_app/bottom_navigator_bar_all_screen/add_new_task.dart'
 import 'package:note_book_app/bottom_navigator_bar_all_screen/cancel_screen.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/complete_screen.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/new_task_screen.dart';
-import 'package:note_book_app/bottom_navigator_bar_all_screen/profile_update_screen.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/progress_screen.dart';
 import 'package:note_book_app/custom_widget/appBar_navigator.dart';
 class MainNavigatorScreen extends StatefulWidget {
@@ -66,6 +65,6 @@ class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
     );
   }
   void _floatingActionButton(){
-    Navigator.pushNamed(context,ProfileUpdateScreen.name);
+    Navigator.pushNamed(context,AddNewTask.name);
   }
 }

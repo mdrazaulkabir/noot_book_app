@@ -18,6 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState>_formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final size=MediaQuery.sizeOf(context);
     return Scaffold(
       body: Center(
         child: Padding(
@@ -33,7 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   "Join With Us",
                   style: TextTheme.of(context).titleLarge,
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: size.height*.05,),
                 TextFormField(
                   controller: emailTEController,
                   validator: (value){
@@ -48,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your email:"),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: size.height*.02,),
                 TextFormField(
                   controller: fistNTEController,
                   validator: (value){
@@ -60,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your fist name:"),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: size.height*.02,),
                 TextFormField(
                   controller: lastNTEController,
                   validator: (value){
@@ -72,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your last name:"),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: size.height*.02,),
                 TextFormField(
                   controller: mobileTEController,
                   validator: (value){
@@ -87,7 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your mobile number:"),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: size.height*.02,),
                 TextFormField(
                   controller: passwordTEController,
                   validator: (value){
@@ -105,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your password:"),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: size.height*.03,),
                 // ElevatedButton(
                 //   onPressed: () {},
                 //   child: Text("Login"),

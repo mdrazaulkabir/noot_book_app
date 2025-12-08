@@ -15,7 +15,7 @@ class _CancelScreenState extends State<CancelScreen> {
         body: ListView.builder(
             itemCount: 20,
             itemBuilder: (context,index){
-              return DisplayCard();
+              return DisplayCard(textType: TextType.Cancel,);
             })
     );
   }
