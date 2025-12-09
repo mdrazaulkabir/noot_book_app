@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note_book_app/api_service/all_url.dart';
+import 'package:note_book_app/api_service/network_caller.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
+import 'package:note_book_app/custom_widget/show_my_snack_bar.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController mobileTEController=TextEditingController();
   final TextEditingController passwordTEController=TextEditingController();
   final GlobalKey<FormState>_formKey=GlobalKey<FormState>();
+  bool _signupProgressIndicator=false;
   @override
   Widget build(BuildContext context) {
     final size=MediaQuery.sizeOf(context);
@@ -98,9 +102,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     else if(value.length<6||value.length>12){
                       return 'Password must be 6 to 12 character';
                     }
-                    else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)').hasMatch(value)) { //this collect by online
-                      return "Password must contain both letters and numbers";
-                    }
+                    // else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)').hasMatch(value)) { //this collect by online
+                    //   return "Password must contain both letters and numbers";
+                    // }
                     return null;
                   },
                   textInputAction: TextInputAction.next,
@@ -111,9 +115,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //   onPressed: () {},
                 //   child: Text("Login"),
                 // ),
-                ElevatedButton.icon(onPressed: (){
-                  _signUPButton();
-                }, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
+                Visibility(
+                  visible: _signupProgressIndicator==false,
+                  replacement: Center(child: CircularProgressIndicator(),),
+                  child: ElevatedButton.icon(onPressed: (){
+                    _signUPButton();
+                  }, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
+                ),
                 SizedBox(height: 50),
                 RichText1(text1: "Have account?",text2: "Sign in",),
               ],
@@ -125,12 +133,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
   void _signUPButton(){
     if(_formKey.currentState!.validate()){
-      //navigator
+      _signUp();
     }
   }
+  Future<void> _signUp()async{
+    _signupProgressIndicator==true;
+    setState(() {});
+    Map<String,dynamic>responseBody={
+        "email": emailTEController.text.trim(),
+        "firstName":fistNTEController.text.trim(),
+        "lastName":lastNTEController.text.trim(),
+        "mobile":mobileTEController.text.trim(),
+        "password":passwordTEController.text.trim()
+    };
+    NetworkResponse response=await NetworkCaller.postData(AllUrl.registrationUrl, responseBody);
+
+    _signupProgressIndicator==false;
+    setState(() {});
+
+    if(response.isSuccess){
+      _textFormClear();
+      showMySnackBar(context, "Successfully registration.Now you can login!");
+    }
+    else{
+      showMySnackBar(context, response.errorMessage.toString());
+    }
+  }
+
+  void _textFormClear(){
+    emailTEController.clear();
+    fistNTEController.clear();
+    lastNTEController.clear();
+    mobileTEController.clear();
+    passwordTEController.clear();
+  }
+
+
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailTEController.dispose();
     fistNTEController.dispose();
