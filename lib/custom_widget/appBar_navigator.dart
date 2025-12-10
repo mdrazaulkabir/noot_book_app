@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_book_app/auth_controller/auth_controller.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/profile_update_screen.dart';
 
 import '../all_screen/signin_screen.dart';
@@ -55,7 +56,8 @@ class _AppbarNavigatorState extends State<AppbarNavigator> {
    }
     Navigator.pushNamed(context, ProfileUpdateScreen.name);
   }
-  void _logoutButton(){
+  Future<void> _logoutButton()async{
+    await AuthController.clearData();
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (predicate)=>false);
   }
 }

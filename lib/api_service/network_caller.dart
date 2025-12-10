@@ -75,7 +75,8 @@ class NetworkCaller {
   static void _logResponse(String uri,Response response){
     debugPrint("''''''''''''''''''Request''''''''''''''''''''''''''\n"
         "uri is :$uri\n"
-        "response is:$response\n"
+        "status code: ${response.statusCode}\n"
+        "response is:${response.body}\n"
         "'''''''''''''''''''''''''''''''''''''''''''''''''''''''");
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_book_app/api_service/all_url.dart';
 import 'package:note_book_app/api_service/network_caller.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
-import 'package:note_book_app/custom_widget/show_my_snack_bar.dart';
+import 'package:note_book_app/custom_method/show_my_snack_bar.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -117,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 // ),
                 Visibility(
                   visible: _signupProgressIndicator==false,
-                  replacement: Center(child: CircularProgressIndicator(),),
+                  replacement: CMCircularProgress(),
                   child: ElevatedButton.icon(onPressed: (){
                     _signUPButton();
                   }, label: Text("Sign up"),icon: Icon(Icons.open_in_browser),),
@@ -153,10 +153,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if(response.isSuccess){
       _textFormClear();
-      showMySnackBar(context, "Successfully registration.Now you can login!");
+      CMSnackBar(context, "Successfully registration.Now you can login!");
     }
     else{
-      showMySnackBar(context, response.errorMessage.toString());
+      CMSnackBar(context, response.errorMessage.toString());
     }
   }
 

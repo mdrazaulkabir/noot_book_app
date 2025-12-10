@@ -3,8 +3,10 @@ import 'package:note_book_app/all_screen/email_adress_screen.dart';
 import 'package:note_book_app/all_screen/signup_screen.dart';
 import 'package:note_book_app/api_service/all_url.dart';
 import 'package:note_book_app/api_service/network_caller.dart';
+import 'package:note_book_app/auth_controller/auth_controller.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/main_navigator_screen.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
+import 'package:note_book_app/user_model/user_model.dart';
 
 import '../custom_method/show_my_snack_bar.dart';
 
@@ -125,6 +127,9 @@ class _SignInScreenState extends State<SignInScreen> {
     };
     NetworkResponse response=await NetworkCaller.postData(AllUrl.loginUrl, requestBody);
     if(response.isSuccess){
+      UserModel userModel1=UserModel.fromJson(response.body!['data']);
+      String token1=response.body!['token'];
+      await AuthController.saveUserData(userModel1, token1);
       Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
     }
     else{
