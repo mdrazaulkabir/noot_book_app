@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:note_book_app/all_screen/email_adress_screen.dart';
 import 'package:note_book_app/all_screen/signup_screen.dart';
+import 'package:note_book_app/api_service/all_url.dart';
+import 'package:note_book_app/api_service/network_caller.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/main_navigator_screen.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
+
+import '../custom_method/show_my_snack_bar.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -15,6 +19,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailTEController=TextEditingController();
   final TextEditingController passwordTEController=TextEditingController();
   final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
+  bool signInProgressIndicator=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,12 +69,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 //   onPressed: () {},
                 //   child: Text("Login"),
                 // ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _loginButton();
-                  },
-                  label: Text("Login"),
-                  icon: Icon(Icons.login),
+                Visibility(
+                  visible: signInProgressIndicator==false,
+                  replacement:CMCircularProgress(),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      _loginButton();
+                    },
+                    label: Text("Login"),
+                    icon: Icon(Icons.login),
+                  ),
                 ),
                 SizedBox(height: 50),
 
@@ -100,12 +109,32 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+  
   void _loginButton(){
     if(_formKey.currentState!.validate()){
-     //navigator another page
+      _Login();
     }
-    Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
   }
+  
+  Future<void>_Login()async{
+    signInProgressIndicator=true;
+    setState(() {});
+    Map<String,dynamic>requestBody={
+        "email": emailTEController.text.trim(),
+        "password": passwordTEController.text.trim(),
+    };
+    NetworkResponse response=await NetworkCaller.postData(AllUrl.loginUrl, requestBody);
+    if(response.isSuccess){
+      Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
+    }
+    else{
+      signInProgressIndicator=false;
+      setState(() {});
+      CMSnackBar(context, response.errorMessage.toString());
+    }
+  }
+  
+  
   void _forgetButton(){
     Navigator.pushReplacementNamed(context, EmailAddressScreen.name);
   }
