@@ -41,7 +41,8 @@ class NetworkCaller {
         uri,
         body: jsonEncode(body),
         headers: {
-      "content_type": 'application/json'});
+          "content-type": "application/json",
+        });
     _logResponse(url, response);
 
     try{
@@ -59,18 +60,22 @@ class NetworkCaller {
     }
   }
 
+
+
+
+
  static void _logRequest(String uri,Map<String,dynamic>?body){
     debugPrint("''''''''''''''''''''Request''''''''''''''''''''''''''\n"
-        "uri is: ''''''''''''''''''$uri\n "
-        "body is : ''''''''''''''''$body\n"
+        "uri is:$uri\n "
+        "body is :$body\n"
         "'''''''''''''''''''''''''''''''''''''''''''''''''''''"
     );
   }
 
   static void _logResponse(String uri,Response response){
     debugPrint("''''''''''''''''''Request''''''''''''''''''''''''''\n"
-        "uri is :'''''''''''''''''$uri\n"
-        "response is:'''''''''''''$response\n"
+        "uri is :$uri\n"
+        "response is:$response\n"
         "'''''''''''''''''''''''''''''''''''''''''''''''''''''''");
   }
 

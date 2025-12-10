@@ -137,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
   Future<void> _signUp()async{
-    _signupProgressIndicator==true;
+    _signupProgressIndicator=true;
     setState(() {});
     Map<String,dynamic>responseBody={
         "email": emailTEController.text.trim(),
@@ -148,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     };
     NetworkResponse response=await NetworkCaller.postData(AllUrl.registrationUrl, responseBody);
 
-    _signupProgressIndicator==false;
+    _signupProgressIndicator=false;
     setState(() {});
 
     if(response.isSuccess){
