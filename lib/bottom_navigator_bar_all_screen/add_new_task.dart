@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:note_book_app/api_service/all_url.dart';
+import 'package:note_book_app/api_service/network_caller.dart';
+import 'package:note_book_app/custom_method/show_my_snack_bar.dart';
 import 'package:note_book_app/custom_widget/appBar_navigator.dart';
 
 class AddNewTask extends StatefulWidget {
@@ -13,6 +16,7 @@ class _AddNewTaskState extends State<AddNewTask> {
   final TextEditingController subjectTEController=TextEditingController();
   final TextEditingController descriptionTEController=TextEditingController();
   final GlobalKey<FormState>_formKey=GlobalKey<FormState>();
+  bool elevatedButtonProgress=false;
   @override
   Widget build(BuildContext context) {
     final size=MediaQuery.sizeOf(context);
@@ -52,9 +56,13 @@ class _AddNewTaskState extends State<AddNewTask> {
                 SizedBox(
                   height:size.height*.05,
                 ),
-                ElevatedButton(onPressed: (){
-                  _elevatedButton();
-                }, child: Icon(Icons.arrow_circle_right_outlined))
+                Visibility(
+                  visible: elevatedButtonProgress==false,
+                  replacement: CMCircularProgress(),
+                  child: ElevatedButton(onPressed: (){
+                    _elevatedButton();
+                  }, child: Icon(Icons.arrow_circle_right_outlined)),
+                )
               ],
             ),
           ),
@@ -64,8 +72,28 @@ class _AddNewTaskState extends State<AddNewTask> {
   }
    void _elevatedButton(){
     if(_formKey.currentState!.validate()){
-      //navigator
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully added new task!")));
+      _onPressElevatedButton();
+    }
+  }
+  Future<void>_onPressElevatedButton()async{
+    elevatedButtonProgress=true;
+    setState(() { });
+    Map<String,dynamic>requestBody={
+        "title":subjectTEController.text.trim(),
+        "description": descriptionTEController.text.trim(),
+        "status":"New"
+    };
+    NetworkResponse response=await NetworkCaller.postData(AllUrl.createTask,requestBody);
+    elevatedButtonProgress=false;
+    setState(() { });
+
+    if(response.isSuccess){
+     CMSnackBar(context, 'Successfully added the task!');
+     subjectTEController.clear();
+     descriptionTEController.clear();
+    }
+    else{
+      CMSnackBar(context, response.errorMessage.toString());
     }
   }
   @override
