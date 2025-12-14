@@ -127,10 +127,12 @@ class _SignInScreenState extends State<SignInScreen> {
     };
     NetworkResponse response=await NetworkCaller.postData(AllUrl.loginUrl, requestBody);
     if(response.isSuccess){
-      UserModel userModel1=UserModel.fromJson(response.body!['data']);
-      String token1=response.body!['token'];
-      await AuthController.saveUserData(userModel1, token1);
-      Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
+  UserModel userModel1=UserModel.fromJson(response.body!['data']);
+  print('so there is no data fetch by sharePreference########## $userModel1');
+  String token1=response.body!['token'];
+  print("so really there is no token ##########$token1");
+  await AuthController.saveUserData(userModel1, token1);
+  Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
     }
     else{
       signInProgressIndicator=false;

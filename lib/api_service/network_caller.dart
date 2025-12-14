@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
+import 'package:note_book_app/all_screen/signin_screen.dart';
+import 'package:note_book_app/auth_controller/auth_controller.dart';
 
 class NetworkResponse{
   final bool isSuccess;
@@ -16,7 +18,7 @@ class NetworkCaller {
 
   static Future<NetworkResponse>getData(String url)async{
     Uri uri=Uri.parse(url);
-    _logRequest(url, null);
+    _logRequest(url,null, null);
     Response response=await get(uri);
     _logResponse(url, response);
     try{
@@ -36,13 +38,16 @@ class NetworkCaller {
 
   static Future<NetworkResponse> postData(String url,Map<String,dynamic>body)async{
     final uri=Uri.parse(url);
-    _logRequest(url, body);
+    Map<String,String>headers1={
+    "content-type": "application/json",
+    "token":AuthController.userToken ?? '',
+    };
+    _logRequest(url,headers1,body);
     final response= await post(
         uri,
         body: jsonEncode(body),
-        headers: {
-          "content-type": "application/json",
-        });
+        headers: headers1,
+        );
     _logResponse(url, response);
 
     try{
@@ -50,6 +55,10 @@ class NetworkCaller {
         final decodedData=jsonDecode(response.body);
         return NetworkResponse(isSuccess: true, statusCode: response.statusCode,body: decodedData);
       }
+      // else if(response.statusCode==401){
+      //   final decodedData=jsonDecode(response.body);
+      //   return NetworkResponse(isSuccess: false, statusCode: response.statusCode,body: decodedData,errorMessage:decodedData['data']?? _defaultErrorMessage);
+      // }
       else{
         final decodedData=jsonDecode(response.body);
         return NetworkResponse(isSuccess: false, statusCode: response.statusCode,body: decodedData,errorMessage:decodedData['data']?? _defaultErrorMessage);
@@ -64,20 +73,25 @@ class NetworkCaller {
 
 
 
- static void _logRequest(String uri,Map<String,dynamic>?body){
+ static void _logRequest(String uri,Map<String,dynamic>?headers,Map<String,dynamic>?body){
     debugPrint("''''''''''''''''''''Request''''''''''''''''''''''''''\n"
         "uri is:$uri\n "
+        "headers:$headers\n"
         "body is :$body\n"
         "'''''''''''''''''''''''''''''''''''''''''''''''''''''"
     );
   }
 
   static void _logResponse(String uri,Response response){
-    debugPrint("''''''''''''''''''Request''''''''''''''''''''''''''\n"
+    debugPrint("''''''''''''''''''Response''''''''''''''''''''''''''\n"
         "uri is :$uri\n"
         "status code: ${response.statusCode}\n"
         "response is:${response.body}\n"
         "'''''''''''''''''''''''''''''''''''''''''''''''''''''''");
+  }
+  static Future<void> _unAuthorized()async{
+    AuthController.clearData();
+    //Navigator.of(context).pushNamedAndRemoveUntil(SignInScreen.name, (predicate)=>false);
   }
 
 }

@@ -42,7 +42,7 @@ class DisplayCard extends StatelessWidget {
       return Colors.greenAccent;
     }
     else if(textType==TextType.Cancel){
-      return Colors.redAccent;
+      return Colors.red.shade200;
     }
     else{
       return Colors.brown.shade200;
