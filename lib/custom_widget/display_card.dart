@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:note_book_app/model/new_task_model.dart';
 enum TextType{tNew, Complete, Cancel,Progress}
 class DisplayCard extends StatelessWidget {
   final TextType textType;
-  const DisplayCard({super.key, required this.textType});
+  final NewTaskModel newTaskModel;
+  const DisplayCard({super.key, required this.textType, required this.newTaskModel});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +15,9 @@ class DisplayCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment:CrossAxisAlignment.start,
           children: [
-            Text("Title",style: TextStyle(fontSize:20, color: Colors.black),),
-            Text("Description",style: TextStyle(fontSize:12, color: Colors.grey),),
-            Text("Date: 02/12/2025",style: TextStyle(fontSize:12, color: Colors.grey,fontWeight: FontWeight.bold),),
+            Text("Title:${newTaskModel.title}",style: TextStyle(fontSize:20, color: Colors.black),),
+            Text("Description:${newTaskModel.description}",style: TextStyle(fontSize:12, color: Colors.grey),),
+            Text("Date:${newTaskModel.createData}",style: TextStyle(fontSize:12, color: Colors.grey,fontWeight: FontWeight.bold),),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

@@ -14,7 +14,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
       body: ListView.builder(
           itemCount: 20,
           itemBuilder: (context,index){
-        return DisplayCard(textType: TextType.Complete,);
+        // return DisplayCard(textType: TextType.Complete,);
       })
     );
   }

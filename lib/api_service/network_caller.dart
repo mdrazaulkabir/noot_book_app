@@ -19,8 +19,11 @@ class NetworkCaller {
 
   static Future<NetworkResponse>getData({required String url})async{
     Uri uri=Uri.parse(url);
-    _logRequest(url,null, null);
-    Response response=await get(uri);
+    final Map<String,String>headers1={
+      "token":AuthController.userToken??''
+    };
+    _logRequest(url,headers1, null);
+    Response response=await get(uri,headers:headers1);
     _logResponse(url, response);
     try{
       if(response.statusCode==200){
@@ -44,7 +47,7 @@ class NetworkCaller {
 
   static Future<NetworkResponse> postData({required String url,Map<String,dynamic>?body,bool isLoggedIn=false})async{
     final uri=Uri.parse(url);
-    Map<String,String>headers1={
+    final Map<String,String>headers1={
     "content-type": "application/json",
       "token":AuthController.userToken ?? '',
     };

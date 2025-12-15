@@ -1,8 +1,6 @@
 import 'dart:convert';
-
-import 'package:note_book_app/user_model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../model/user_model.dart';
 class AuthController {
   static UserModel? userData;
   static String? userToken;

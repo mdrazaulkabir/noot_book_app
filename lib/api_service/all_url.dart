@@ -3,5 +3,6 @@ class AllUrl {
   static final String registrationUrl="${baseUrl}/Registration";
   static final String loginUrl="${baseUrl}/Login";
   static final String createNewTask='${baseUrl}/createTask';
+  static final String newTaskList='${baseUrl}//listTaskByStatus/New';
 
 }

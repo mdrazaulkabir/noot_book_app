@@ -6,9 +6,8 @@ import 'package:note_book_app/api_service/network_caller.dart';
 import 'package:note_book_app/auth_controller/auth_controller.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/main_navigator_screen.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
-import 'package:note_book_app/user_model/user_model.dart';
-
 import '../custom_method/show_my_snack_bar.dart';
+import '../model/user_model.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -150,6 +149,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   @override
   void dispose() {
+    // TODO: implement dispose
     super.dispose();
     emailTEController.dispose();
     passwordTEController.dispose();

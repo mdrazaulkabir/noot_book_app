@@ -15,7 +15,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         body: ListView.builder(
             itemCount: 20,
             itemBuilder: (context,index){
-              return DisplayCard(textType: TextType.Progress,);
+              // return DisplayCard(textType: TextType.Progress,);
             })
     );
   }
