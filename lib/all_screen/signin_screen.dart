@@ -125,14 +125,14 @@ class _SignInScreenState extends State<SignInScreen> {
         "email": emailTEController.text.trim(),
         "password": passwordTEController.text.trim(),
     };
-    NetworkResponse response=await NetworkCaller.postData(AllUrl.loginUrl, requestBody);
+    NetworkResponse response=await NetworkCaller.postData(url: '${AllUrl.loginUrl}', body: requestBody,isLoggedIn: true);
     if(response.isSuccess){
-  UserModel userModel1=UserModel.fromJson(response.body!['data']);
-  print('so there is no data fetch by sharePreference########## $userModel1');
-  String token1=response.body!['token'];
-  print("so really there is no token ##########$token1");
-  await AuthController.saveUserData(userModel1, token1);
-  Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
+       UserModel userModel1=UserModel.fromJson(response.body!['data']);
+       //print('so there is no data fetch by sharePreference########## $userModel1');
+       String token1=response.body!['token'];
+       //print("so really there is no token ##########$token1");
+       await AuthController.saveUserData(userModel1, token1);
+       Navigator.pushReplacementNamed(context, MainNavigatorScreen.name);
     }
     else{
       signInProgressIndicator=false;
@@ -150,7 +150,6 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailTEController.dispose();
     passwordTEController.dispose();

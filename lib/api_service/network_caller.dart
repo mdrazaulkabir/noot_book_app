@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:note_book_app/all_screen/signin_screen.dart';
 import 'package:note_book_app/auth_controller/auth_controller.dart';
+import 'package:note_book_app/note_book_app.dart';
 
 class NetworkResponse{
   final bool isSuccess;
@@ -16,7 +17,7 @@ class NetworkResponse{
 class NetworkCaller {
   static final  String _defaultErrorMessage="Api can't fetch the server and data";
 
-  static Future<NetworkResponse>getData(String url)async{
+  static Future<NetworkResponse>getData({required String url})async{
     Uri uri=Uri.parse(url);
     _logRequest(url,null, null);
     Response response=await get(uri);
@@ -25,6 +26,11 @@ class NetworkCaller {
       if(response.statusCode==200){
         final decodedData=jsonDecode(response.body);
         return NetworkResponse(isSuccess: true, statusCode: response.statusCode,body: decodedData);
+      }
+      else if(response.statusCode==401){
+          _unAuthorized();
+        final decodedData=jsonDecode(response.body);
+        return NetworkResponse(isSuccess: false, statusCode: response.statusCode, body: decodedData,errorMessage:decodedData['data']?? _defaultErrorMessage);
       }
       else{
         final decodedData=jsonDecode(response.body);
@@ -36,11 +42,11 @@ class NetworkCaller {
     }
   }
 
-  static Future<NetworkResponse> postData(String url,Map<String,dynamic>body)async{
+  static Future<NetworkResponse> postData({required String url,Map<String,dynamic>?body,bool isLoggedIn=false})async{
     final uri=Uri.parse(url);
     Map<String,String>headers1={
     "content-type": "application/json",
-    "token":AuthController.userToken ?? '',
+      "token":AuthController.userToken ?? '',
     };
     _logRequest(url,headers1,body);
     final response= await post(
@@ -55,10 +61,13 @@ class NetworkCaller {
         final decodedData=jsonDecode(response.body);
         return NetworkResponse(isSuccess: true, statusCode: response.statusCode,body: decodedData);
       }
-      // else if(response.statusCode==401){
-      //   final decodedData=jsonDecode(response.body);
-      //   return NetworkResponse(isSuccess: false, statusCode: response.statusCode,body: decodedData,errorMessage:decodedData['data']?? _defaultErrorMessage);
-      // }
+      else if(response.statusCode==401){
+        if(!isLoggedIn){
+          _unAuthorized();
+        }
+        final decodedData=jsonDecode(response.body);
+        return NetworkResponse(isSuccess: false, statusCode: response.statusCode, body: decodedData,errorMessage:decodedData['data']?? _defaultErrorMessage);
+      }
       else{
         final decodedData=jsonDecode(response.body);
         return NetworkResponse(isSuccess: false, statusCode: response.statusCode,body: decodedData,errorMessage:decodedData['data']?? _defaultErrorMessage);
@@ -90,8 +99,8 @@ class NetworkCaller {
         "'''''''''''''''''''''''''''''''''''''''''''''''''''''''");
   }
   static Future<void> _unAuthorized()async{
-    AuthController.clearData();
-    //Navigator.of(context).pushNamedAndRemoveUntil(SignInScreen.name, (predicate)=>false);
+    await AuthController.clearData();
+    Navigator.of(NoteBookApp.navigator.currentContext!).pushNamedAndRemoveUntil(SignInScreen.name, (predicate)=>false);
   }
 
 }

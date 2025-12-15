@@ -25,6 +25,7 @@ class _AddNewTaskState extends State<AddNewTask> {
       body: Center(
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -41,6 +42,12 @@ class _AddNewTaskState extends State<AddNewTask> {
                   decoration: InputDecoration(
                     hintText: "Subject"
                   ),
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return "Enter one subject!";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height:size.height*.02,
@@ -51,6 +58,12 @@ class _AddNewTaskState extends State<AddNewTask> {
                   decoration: InputDecoration(
                       hintText: "Description",
                   ),
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return 'Enter one description!';
+                    }
+                    return null;
+                  },
                   maxLines: 5,
                 ),
                 SizedBox(
@@ -83,7 +96,7 @@ class _AddNewTaskState extends State<AddNewTask> {
         "description": descriptionTEController.text.trim(),
         "status":"New"
     };
-    NetworkResponse response=await NetworkCaller.postData(AllUrl.createNewTask,requestBody);
+    NetworkResponse response=await NetworkCaller.postData(url: '${AllUrl.createNewTask}',body: requestBody);
     elevatedButtonProgress=false;
     setState(() { });
 

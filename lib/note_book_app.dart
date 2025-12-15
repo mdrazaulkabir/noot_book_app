@@ -11,7 +11,7 @@ import 'package:note_book_app/splash_screen.dart';
 
 class NoteBookApp extends StatelessWidget {
   const NoteBookApp({super.key});
-  //GlobalKey<NavigatorState>navigator=GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState>navigator=GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
