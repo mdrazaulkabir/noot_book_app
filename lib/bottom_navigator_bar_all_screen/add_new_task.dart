@@ -96,7 +96,7 @@ class _AddNewTaskState extends State<AddNewTask> {
         "description": descriptionTEController.text.trim(),
         "status":"New"
     };
-    NetworkResponse response=await NetworkCaller.postData(url: '${AllUrl.createNewTask}',body: requestBody);
+    NetworkResponse response=await NetworkCaller.postData(url: '${AllUrl.createNewTaskUrl}',body: requestBody);
     elevatedButtonProgress=false;
     setState(() { });
 
