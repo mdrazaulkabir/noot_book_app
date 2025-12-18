@@ -17,18 +17,22 @@ class _ProgressScreenState extends State<ProgressScreen> {
   List<NewTaskModel>progressData=[];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _progressTaskList();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-            itemCount:progressData.length,
-            itemBuilder: (context,index){
-              return DisplayCard(textType: TextType.Progress, newTaskModel: progressData[index],);
-            })
+        body: Visibility(
+          visible: progressInProgress==false,
+          replacement: CMCircularProgress(),
+          child: ListView.builder(
+              itemCount:progressData.length,
+              itemBuilder: (context,index){
+                return DisplayCard(textType: TextType.Progress, newTaskModel: progressData[index],);
+              }),
+        )
     );
   }
 

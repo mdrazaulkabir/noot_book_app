@@ -64,9 +64,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           Visibility(
             visible: _getNewTaskInProgress==false,
             replacement: CMCircularProgress(),
-            child: Expanded(
+            child: Expanded(                               //this expanded need because of listView.builder in parent of column
               child: ListView.builder(
-                  itemCount:newTaskModelData.length,       //vvi =>when you not give the itemCount that time we need to Expended also need in api because we don't know the api length
+                  itemCount:newTaskModelData.length,       //vvi =>when you not give the itemCount that time we need to Expended also need in api because we don't know the api length also
                   itemBuilder: (context,index){
                     return DisplayCard(textType: TextType.tNew,newTaskModel: newTaskModelData[index]);
                   }),
