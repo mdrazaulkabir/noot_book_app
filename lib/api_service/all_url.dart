@@ -4,6 +4,9 @@ class AllUrl {
   static final String loginUrl="${baseUrl}/Login";
   static final String createNewTaskUrl='${baseUrl}/createTask';
   static final String newTaskListUrl='${baseUrl}//listTaskByStatus/New';
+  static final String completedTaskListUrl='${baseUrl}/listTaskByStatus/Completed';
+  static final String cancelTaskListUrl='${baseUrl}/listTaskByStatus/Canceled';
+  static final String progressTaskListUrl='${baseUrl}/listTaskByStatus/Progressed';
   static final String taskCountListUrl='${baseUrl}/taskStatusCount';
 
 }
