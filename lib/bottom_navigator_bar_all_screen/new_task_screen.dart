@@ -23,7 +23,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   void initState() {
     super.initState();
-    // WidgetsFlutterBinding.
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    // });
     _newTaskList();
     _taskCountList();
   }
@@ -54,7 +55,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("${taskCountModelData[index].sum}",style: TextStyle(color: Colors.black),),
-                          Text("${taskCountModelData[index].id}",style: TextStyle(color: Colors.black),),
+                          Text(taskCountModelData[index].id,style: TextStyle(color: Colors.black),),
                         ],
                       )),
                     );
@@ -68,7 +69,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               child: ListView.builder(
                   itemCount:newTaskModelData.length,       //vvi =>when you not give the itemCount that time we need to Expended also need in api because we don't know the api length also
                   itemBuilder: (context,index){
-                    return DisplayCard(textType: TextType.tNew,newTaskModel: newTaskModelData[index]);
+                    return DisplayCard(textType: TextType.tNew,
+                      newTaskModel: newTaskModelData[index],
+                      onStausUpdate: () {
+                      _newTaskList();
+                      _taskCountList();
+                      },);
                   }),
             ),
           ),
@@ -113,3 +119,4 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     setState(() {});
   }
 }
+
