@@ -145,7 +145,9 @@ class _DisplayCardState extends State<DisplayCard> {
        widget.onStausUpdate;
     }
     else{
-      CMSnackBar(context, response.errorMessage!);
+      if(mounted){
+        CMSnackBar(context, response.errorMessage!);
+      }
     }
   }
 }

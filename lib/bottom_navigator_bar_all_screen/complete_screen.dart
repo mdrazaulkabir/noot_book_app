@@ -17,9 +17,10 @@ class _CompleteScreenState extends State<CompleteScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _completedTaskList();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _completedTaskList();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
         child: ListView.builder(
             itemCount: completedTaskData.length,
             itemBuilder: (context,index){
-              return DisplayCard(textType: TextType.Complete, newTaskModel: completedTaskData[index],);
+              return DisplayCard(textType: TextType.Complete, newTaskModel: completedTaskData[index], onStausUpdate: () { _completedTaskList(); },);
         }),
       )
     );
@@ -38,7 +39,9 @@ class _CompleteScreenState extends State<CompleteScreen> {
 
   Future<void>_completedTaskList()async{
     completedTaskInProgress=true;
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
     NetworkResponse response=await NetworkCaller.getData(url: AllUrl.completedTaskListUrl);
     if(response.isSuccess){
       final List<NewTaskModel>listData=[];
@@ -48,9 +51,13 @@ class _CompleteScreenState extends State<CompleteScreen> {
       completedTaskData=listData;
     }
     else{
-      CMSnackBar(context, response.errorMessage!);
+      if(mounted){
+        CMSnackBar(context, response.errorMessage!);
+      }
     }
     completedTaskInProgress=false;
-    setState(() { });
+    if(mounted){
+      setState(() {});
+    }
   }
 }

@@ -18,7 +18,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
   @override
   void initState() {
     super.initState();
-    _progressTaskList();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _progressTaskList();
+    });
   }
 
   @override
@@ -30,7 +32,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
           child: ListView.builder(
               itemCount:progressData.length,
               itemBuilder: (context,index){
-                return DisplayCard(textType: TextType.Progress, newTaskModel: progressData[index],);
+                 return DisplayCard(textType: TextType.Progress, newTaskModel: progressData[index], onStausUpdate: () { _progressTaskList(); },);
               }),
         )
     );
@@ -38,7 +40,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
   Future<void>_progressTaskList()async{
     progressInProgress=true;
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
     NetworkResponse response=await NetworkCaller.getData(url: AllUrl.progressTaskListUrl);
     if(response.isSuccess){
       final List<NewTaskModel>listData=[];
@@ -48,9 +52,13 @@ class _ProgressScreenState extends State<ProgressScreen> {
       progressData=listData;
     }
     else{
-      CMSnackBar(context, response.errorMessage!);
+      if(mounted){
+        CMSnackBar(context, response.errorMessage!);
+      }
     }
     progressInProgress=false;
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 }

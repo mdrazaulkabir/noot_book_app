@@ -23,10 +23,10 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_){
-    // });
-    _newTaskList();
-    _taskCountList();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _newTaskList();
+      _taskCountList();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
   Future<void>_newTaskList()async{
     _getNewTaskInProgress=true;
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
     NetworkResponse response=await NetworkCaller.getData(url:AllUrl.newTaskListUrl);
     if(response.isSuccess){
       final List<NewTaskModel>data=[];
@@ -95,10 +97,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       newTaskModelData=data;
     }
     else{
-      CMSnackBar(context, response.errorMessage.toString());
+      if(mounted){
+        CMSnackBar(context, response.errorMessage.toString());
+      }
     }
     _getNewTaskInProgress=false;
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 
   Future<void>_taskCountList()async{
@@ -113,10 +119,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       taskCountModelData=taskCountList;
     }
     else{
-      CMSnackBar(context, response.errorMessage.toString());
+      if(mounted){
+        CMSnackBar(context, response.errorMessage.toString());
+      }
     }
     _getTaskCountInProgress=false;
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 }
 

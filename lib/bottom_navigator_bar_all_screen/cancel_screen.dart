@@ -18,7 +18,9 @@ class _CancelScreenState extends State<CancelScreen> {
   @override
   void initState() {
     super.initState();
-    _cancelApiCall();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _cancelApiCall();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _CancelScreenState extends State<CancelScreen> {
           child: ListView.builder(
               itemCount: cancelTaskListData.length,
               itemBuilder: (context,index){
-                return DisplayCard(textType: TextType.Cancel, newTaskModel: cancelTaskListData[index],);
+                 return DisplayCard(textType: TextType.Cancel, newTaskModel: cancelTaskListData[index], onStausUpdate: () { _cancelApiCall(); },);
               }),
         )
     );
@@ -37,7 +39,9 @@ class _CancelScreenState extends State<CancelScreen> {
 
   Future<void>_cancelApiCall()async{
     cancelInProgress=true;
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
     NetworkResponse response=await NetworkCaller.getData(url: AllUrl.cancelTaskListUrl);
     if(response.isSuccess){
       final List<NewTaskModel>listData=[];
@@ -47,9 +51,13 @@ class _CancelScreenState extends State<CancelScreen> {
       cancelTaskListData=listData;
     }
     else{
-      CMSnackBar(context, response.errorMessage!);
+      if(mounted){
+        CMSnackBar(context, response.errorMessage!);
+      }
     }
     cancelInProgress=false;
-    setState(() { });
+    if(mounted){
+      setState(() {});
+    }
   }
 }
