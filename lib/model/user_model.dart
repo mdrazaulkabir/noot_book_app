@@ -4,12 +4,14 @@ class UserModel {
   late String firstName;
   late String lastName;
   late String mobile;
+  String? photo;
   UserModel.fromJson(Map<String,dynamic>json){
     id = json['_id'];
     email=json['email'];
     firstName=json['firstName'];
     lastName=json['lastName'];
     mobile=json['mobile'];
+    photo=json["photo"];
   }
   Map<String ,dynamic>toJson(){
     return {
@@ -17,7 +19,8 @@ class UserModel {
       'email': email,
       'firstName':firstName,
       'lastName':lastName,
-      'mobile':mobile
+      'mobile':mobile,
+      'photo':photo,
     };
   }
 }

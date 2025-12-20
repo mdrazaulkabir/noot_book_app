@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:note_book_app/auth_controller/auth_controller.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/profile_update_screen.dart';
@@ -28,13 +30,13 @@ class _AppbarNavigatorState extends State<AppbarNavigator> {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     backgroundColor: Colors.greenAccent,
-                    //backgroundImage: Icon(Icons.error),
+                    backgroundImage: AuthController.userModel?.photo==null? null: MemoryImage(base64Decode(AuthController.userModel!.photo!)),
                   ),
                 ),
                 Column(
                   children: [
-                    Text("Razaul Kabir",style:TextStyle(fontSize: 20,color: Colors.white),),
-                    Text("RazaulKabir@gmail.com",style:TextStyle(fontSize: 10,color: Colors.white),)
+                    Text("${AuthController.userModel?.firstName}",style:TextStyle(fontSize: 20,color: Colors.white),),
+                    Text("${AuthController.userModel?.email}",style:TextStyle(fontSize: 10,color: Colors.white),)
 
                   ],
                 ),

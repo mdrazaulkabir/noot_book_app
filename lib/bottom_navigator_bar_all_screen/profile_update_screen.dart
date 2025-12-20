@@ -1,5 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:note_book_app/api_service/all_url.dart';
+import 'package:note_book_app/api_service/network_caller.dart';
+import 'package:note_book_app/auth_controller/auth_controller.dart';
+import 'package:note_book_app/custom_method/show_my_snack_bar.dart';
 import 'package:note_book_app/custom_widget/appBar_navigator.dart';
 
 class ProfileUpdateScreen extends StatefulWidget {
@@ -19,7 +26,16 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   final GlobalKey<FormState>_formKey=GlobalKey<FormState>();
   final ImagePicker imagePicker=ImagePicker();
   XFile? _selectedImage;
-
+  bool updateInProgress=false;
+  @override
+  void initState() {
+    super.initState();
+    // emailTEController.text=AuthController.userModel!.email; //it's can be wrong because there we talk force not null
+    emailTEController.text=AuthController.userModel?.email??'';
+    fistNTEController.text=AuthController.userModel?.firstName??'';
+    lastNTEController.text=AuthController.userModel?.lastName??'';
+    mobileTEController.text=AuthController.userModel?.mobile??'';
+  }
   @override
   Widget build(BuildContext context) {
     final size=MediaQuery.sizeOf(context);
@@ -48,10 +64,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         height: size.height*.06,
                         width: size.width*.2,
+                        // width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.greenAccent,
                           borderRadius: BorderRadius.circular(15),
@@ -60,10 +78,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           onTapPickedImage();
                         }, icon: Text("Photo"))),
                       ),
-                      SizedBox(width: size.width*.02,),
-                      Expanded(    //here expanded used because this parent => container width is fixed
-                        child: Text(_selectedImage == null?'Photo is not selected' :
-                        _selectedImage!.name, textAlign: TextAlign.center,
+                      // SizedBox(width: size.width*.05,),
+                      Expanded(
+                        child: Text(_selectedImage == null?'Photo is not selected' : _selectedImage!.name,style: TextStyle(overflow:TextOverflow.ellipsis),
+                          textAlign: TextAlign.center,
                           maxLines: 1,overflow: TextOverflow.ellipsis,),
                       ),
                     ],
@@ -73,15 +91,16 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 SizedBox(height: size.height*.02,),
                 TextFormField(
                   controller: emailTEController,
-                  validator: (value){
-                    if(value!.isEmpty){
-                      return 'Enter valid email';
-                    }
-                    else if(!value.contains('@')||!value.contains('.')){
-                      return "Missing sign '@' and '.' ";
-                    }
-                    return null;
-                  },
+                  // validator: (value){
+                  //   if(value!.isEmpty){
+                  //     return 'Enter valid email';
+                  //   }
+                  //   else if(!value.contains('@')||!value.contains('.')){
+                  //     return "Missing sign '@' and '.' ";
+                  //   }
+                  //   return null;
+                  // },
+                  enabled: false,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your email:"),
                 ),
@@ -128,15 +147,19 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 TextFormField(
                   controller: passwordTEController,
                   validator: (value){
-                    if(value!.isEmpty){
-                      return 'Enter valid password!';
+                    int length1=value?.length??0;
+                    if(length1>0&&length1<=6){
+                      return "Enter valid password!";
                     }
-                    else if(value.length<6||value.length>12){
-                      return 'Password must be 6 to 12 character';
-                    }
-                    else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)').hasMatch(value)) { //this collect by online
-                      return "Password must contain both letters and numbers";
-                    }
+                    // if(value!.isEmpty){
+                    //   return 'Enter valid password!';
+                    // }
+                    // else if(value.length<6||value.length>12){
+                    //   return 'Password must be 6 to 12 character';
+                    // }
+                    // else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)').hasMatch(value)) { //this collect by online
+                    //   return "Password must contain both letters and numbers";
+                    // }
                     return null;
                   },
                   textInputAction: TextInputAction.next,
@@ -159,9 +182,9 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   }
   void _updateButton(){
     if(_formKey.currentState!.validate()){
-      //navigator
+      _updateApiCall();
     }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully update profile")));
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("")));
   }
   Future onTapPickedImage()async{
     final XFile? imagePicked= await imagePicker.pickImage(source: ImageSource.camera);
@@ -180,5 +203,43 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     lastNTEController.dispose();
     mobileTEController.dispose();
     passwordTEController.dispose();
+  }
+
+  Future<void> _updateApiCall()async{
+    updateInProgress=true;
+    if(mounted){
+      setState(() {});
+    }
+    Map<String,dynamic>requestBody={
+      'email':emailTEController.text.trim(),
+      'firstName':fistNTEController.text.trim(),
+      'lastName':lastNTEController.text.trim(),
+      'mobile':mobileTEController.text.trim()
+    };
+    if(passwordTEController.text.isNotEmpty){
+      requestBody['password']=passwordTEController.text.trim();
+    }
+    if(_selectedImage!=null){
+      Uint8List imageBytes= await _selectedImage!.readAsBytes();
+       requestBody['photo']=base64Encode(imageBytes);
+    }
+    NetworkResponse response=await NetworkCaller.postData(url: AllUrl.updateUrl,body: requestBody);
+
+    updateInProgress=false;
+    if(mounted){
+      setState(() {});
+    }
+
+    if(response.isSuccess){
+      passwordTEController.clear();
+      if(mounted){
+        CMSnackBar(context, "Successfully update profile!");
+      }
+    }
+    else{
+      if(mounted){
+        CMSnackBar(context, 'Not updated profile!');
+      }
+    }
   }
 }

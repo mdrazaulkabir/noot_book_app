@@ -11,5 +11,5 @@ class AllUrl {
 
   static final String taskCountListUrl='${baseUrl}/taskStatusCount';
   static String taskUpdateStatus(String id,String status)=>"${baseUrl}/updateTaskStatus/$id/$status";
-
+  static final String updateUrl='$baseUrl/ProfileUpdate';
 }
