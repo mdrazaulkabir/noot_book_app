@@ -60,6 +60,15 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                   animationDuration: Duration(milliseconds: 300),
                   backgroundColor: Colors.blue.shade50,
                   controller: pinTEController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'OTP required';
+                    }
+                    if (value.length != 6) {
+                      return 'Enter 6 digit OTP';
+                    }
+                    return null;
+                  },
                   appContext: (context),                                         //vvi
 
                 ),
@@ -117,17 +126,19 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
       String? status1=emailVerifyModel.status;
       String? data1=emailVerifyModel.data;
 
-      if(status1=='Success'){
+      if(status1=='success'){
         pinTEController.clear();
         if(mounted){
-          CMSnackBar(context, "$status1 $data1");
+         // CMSnackBar(context, "$status1 $data1");
           CMSnackBar(context, "Now you can set your new password!");
-          Navigator.pushNamed(context, SetPasswordScreen.name);
+          // Navigator.pushNamed(context, SetPasswordScreen.name);
+          Navigator.pushNamedAndRemoveUntil(context, SetPasswordScreen.name, (route)=>false);
         }
       }
       else{
         pinVerificationProgress=false;
         if(mounted){
+          setState(() {});
           CMSnackBar(context, '$status1 $data1');
         }
       }

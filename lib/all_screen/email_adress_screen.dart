@@ -62,10 +62,14 @@ class _EmailAddressScreenState extends State<EmailAddressScreen> {
                 //   onPressed: () {},
                 //   child: Text("Login"),
                 // ),
-                ElevatedButton.icon(onPressed: (){
-                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>PinVerificationScreen()));
-                  _onTapEmailAddress();
-                }, label:Icon(Icons.arrow_circle_right_outlined,size: 30,),),
+                Visibility(
+                  visible: emailVerifyProcess==false,
+                  replacement: CMCircularProgress(),
+                  child: ElevatedButton.icon(onPressed: (){
+                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>PinVerificationScreen()));
+                    _onTapEmailAddress();
+                  }, label:Icon(Icons.arrow_circle_right_outlined,size: 30,),),
+                ),
                 SizedBox(height: 50),
                 RichText1(text1: "Have account?",text2: ' Sign in',),
               ],
@@ -89,13 +93,13 @@ class _EmailAddressScreenState extends State<EmailAddressScreen> {
       EmailVerifyModel emailVerifyModel=EmailVerifyModel.fromJson(response.body!);
       String? status1=emailVerifyModel.status;
       String? data1=emailVerifyModel.data;
+
         if(status1=='success'){
           SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
           sharedPreferences.setString("email", emailTEController.text.trim());
-          
           if(mounted){
             emailTEController.clear();
-          CMSnackBar(context, "status is: $status1 \n data is: $data1");
+          CMSnackBar(context, "$status1 $data1");
           //await Future.delayed(Duration(seconds: 2));
           Navigator.pushNamedAndRemoveUntil(context, PinVerificationScreen.name, (route)=>false);
           }
@@ -107,6 +111,7 @@ class _EmailAddressScreenState extends State<EmailAddressScreen> {
             CMSnackBar(context, "$status1 \n $data1");
           }
         }
+
     }
     else{
       emailVerifyProcess=false;
