@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:note_book_app/all_screen/pin_verification_screen.dart';
+import 'package:note_book_app/api_service/all_url.dart';
+import 'package:note_book_app/api_service/network_caller.dart';
+import 'package:note_book_app/custom_method/show_my_snack_bar.dart';
 import 'package:note_book_app/custom_widget/rich_text1.dart';
+import 'package:note_book_app/model/email_verify_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmailAddressScreen extends StatefulWidget {
   const EmailAddressScreen({super.key});
@@ -12,6 +17,7 @@ class EmailAddressScreen extends StatefulWidget {
 class _EmailAddressScreenState extends State<EmailAddressScreen> {
   final TextEditingController emailTEController=TextEditingController();
   final GlobalKey<FormState>_formKey=GlobalKey<FormState>();
+  bool emailVerifyProcess=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,12 +77,48 @@ class _EmailAddressScreenState extends State<EmailAddressScreen> {
   }
   void _onTapEmailAddress(){
     if(_formKey.currentState!.validate()){
-      Navigator.pushReplacementNamed(context, PinVerificationScreen.name);
+      //Navigator.pushReplacementNamed(context, PinVerificationScreen.name);
+      recoverEmailApiCall();
     }
+  }
+  Future<void>recoverEmailApiCall()async{
+    emailVerifyProcess=true;
+    setState(() {});
+    NetworkResponse response=await NetworkCaller.getData(url: AllUrl.emailVerifyUrl(emailTEController.text.trim()));
+    if(response.statusCode==200){
+      EmailVerifyModel emailVerifyModel=EmailVerifyModel.fromJson(response.body!);
+      String? status1=emailVerifyModel.status;
+      String? data1=emailVerifyModel.data;
+        if(status1=='success'){
+          SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+          sharedPreferences.setString("email", emailTEController.text.trim());
+          
+          if(mounted){
+            emailTEController.clear();
+          CMSnackBar(context, "status is: $status1 \n data is: $data1");
+          //await Future.delayed(Duration(seconds: 2));
+          Navigator.pushNamedAndRemoveUntil(context, PinVerificationScreen.name, (route)=>false);
+          }
+        }
+        else{
+          emailVerifyProcess=false;
+          if(mounted){
+            setState(() {});
+            CMSnackBar(context, "$status1 \n $data1");
+          }
+        }
+    }
+    else{
+      emailVerifyProcess=false;
+      if(mounted){
+        CMSnackBar(context, response.errorMessage!);
+      }
+    }
+    emailVerifyProcess=false;
+    setState(() { });
   }
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailTEController.dispose();
   }
