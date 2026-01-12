@@ -15,4 +15,5 @@ class AllUrl {
 
   static String emailVerifyUrl(String email)=>'$baseUrl/RecoverVerifyEmail/$email';
   static String pinOtpUrl(String email,String otp)=>'$baseUrl/RecoverVerifyOtp/$email/$otp';
+  static final String setPasswordUrl='$baseUrl/RecoverResetPassword';
 }
