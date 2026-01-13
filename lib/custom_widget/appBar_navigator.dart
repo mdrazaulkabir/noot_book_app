@@ -56,7 +56,10 @@ class _AppbarNavigatorState extends State<AppbarNavigator> {
    if(currentRoute==ProfileUpdateScreen.name){
      return ;
    }
-    Navigator.pushNamed(context, ProfileUpdateScreen.name);
+    Navigator.pushNamed(context, ProfileUpdateScreen.name).then((_){
+      setState(() {
+      });
+    });
   }
   Future<void> _logoutButton()async{
     await AuthController.clearData();

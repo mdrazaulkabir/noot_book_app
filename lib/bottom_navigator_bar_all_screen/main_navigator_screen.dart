@@ -29,28 +29,29 @@ class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
           setState(() {});
         },
         currentIndex: _selectedScreen,
-        backgroundColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.greenAccent,
         selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
              // backgroundColor: Colors.greenAccent,
-            icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
+            icon: Icon(Icons.receipt_outlined),
             label: "New Task",
           ),
           BottomNavigationBarItem(
              // backgroundColor: Colors.greenAccent,
-            icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
+            icon: Icon(Icons.receipt_outlined),
             label: "Complete",
           ),
           BottomNavigationBarItem(
             // backgroundColor: Colors.greenAccent,
-            icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
+            icon: Icon(Icons.receipt_outlined),
             label: "Cancel",
           ),
           BottomNavigationBarItem(
             // backgroundColor: Colors.greenAccent,
-            icon: Icon(Icons.receipt_outlined, color: Colors.lightGreen),
+            icon: Icon(Icons.receipt_outlined),
             label: "Progress",
           ),
         ],

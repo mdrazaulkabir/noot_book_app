@@ -231,6 +231,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     }
 
     if(response.isSuccess){
+      AuthController.userModel=AuthController.userModel!.copyWith(
+        firstName: fistNTEController.text.trim(),
+        lastName: lastNTEController.text.trim(),
+        mobile: mobileTEController.text.trim(),
+        photo: _selectedImage != null ? base64Encode(await _selectedImage!.readAsBytes()) : AuthController.userModel!.photo,
+      );
       passwordTEController.clear();
       if(mounted){
         CMSnackBar(context, "Successfully update profile!");

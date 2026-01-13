@@ -29,6 +29,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
           padding: const EdgeInsets.all(10.0),
           child: Form(
             key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               //crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,7 +130,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
       if(status1=='success'){
         pinTEController.clear();
         if(mounted){
-         // CMSnackBar(context, "$status1 $data1");
+         CMSnackBar(context, "$status1 $data1");
           CMSnackBar(context, "Now you can set your new password!");
           // Navigator.pushNamed(context, SetPasswordScreen.name);
           Navigator.pushNamedAndRemoveUntil(context, SetPasswordScreen.name, (route)=>false);

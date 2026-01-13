@@ -23,4 +23,23 @@ class UserModel {
       'photo':photo,
     };
   }
+
+  UserModel copyWith({
+    String? id,
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? mobile,
+    String? photo,
+  }) {
+    return UserModel.fromJson({
+      '_id': id ?? this.id,
+      'email': email ?? this.email,
+      'firstName': firstName ?? this.firstName,
+      'lastName': lastName ?? this.lastName,
+      'mobile': mobile ?? this.mobile,
+      'photo': photo ?? this.photo,
+    });
+  }
+
 }
