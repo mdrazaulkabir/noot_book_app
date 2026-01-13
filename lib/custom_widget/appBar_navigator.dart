@@ -15,6 +15,22 @@ class AppbarNavigator extends StatefulWidget {
 class _AppbarNavigatorState extends State<AppbarNavigator> {
   @override
   Widget build(BuildContext context) {
+
+    final String? photo = AuthController.userModel?.photo;
+
+    ImageProvider? profileImage;
+
+    if (photo != null && photo.isNotEmpty) {
+      try {
+        final String pureBase64 =
+        photo.contains(',') ? photo.split(',').last : photo;
+
+        profileImage = MemoryImage(base64Decode(pureBase64));
+      } catch (_) {
+        profileImage = null;
+      }
+    }
+
     return  AppBar(
       backgroundColor: Colors.green,
       title: Row(
@@ -30,7 +46,8 @@ class _AppbarNavigatorState extends State<AppbarNavigator> {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     backgroundColor: Colors.greenAccent,
-                    backgroundImage: AuthController.userModel?.photo==null? null: MemoryImage(base64Decode(AuthController.userModel!.photo!)),
+                    // backgroundImage: AuthController.userModel?.photo==null? null: MemoryImage(base64Decode(AuthController.userModel!.photo!)),
+                    backgroundImage: profileImage,
                   ),
                 ),
                 Column(

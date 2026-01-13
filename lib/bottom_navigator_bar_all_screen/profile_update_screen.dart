@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
+import 'package:mime/mime.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:note_book_app/api_service/all_url.dart';
@@ -91,15 +91,6 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 SizedBox(height: size.height*.02,),
                 TextFormField(
                   controller: emailTEController,
-                  // validator: (value){
-                  //   if(value!.isEmpty){
-                  //     return 'Enter valid email';
-                  //   }
-                  //   else if(!value.contains('@')||!value.contains('.')){
-                  //     return "Missing sign '@' and '.' ";
-                  //   }
-                  //   return null;
-                  // },
                   enabled: false,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your email:"),
@@ -151,25 +142,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                     if(length1>0&&length1<=6){
                       return "Enter valid password!";
                     }
-                    // if(value!.isEmpty){
-                    //   return 'Enter valid password!';
-                    // }
-                    // else if(value.length<6||value.length>12){
-                    //   return 'Password must be 6 to 12 character';
-                    // }
-                    // else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)').hasMatch(value)) { //this collect by online
-                    //   return "Password must contain both letters and numbers";
-                    // }
                     return null;
                   },
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Enter your password:"),
                 ),
                 SizedBox(height: size.height*.03,),
-                // ElevatedButton(
-                //   onPressed: () {},
-                //   child: Text("Login"),
-                // ),
                 ElevatedButton.icon(onPressed: (){
                   _updateButton();
                 }, label: Text("Update"),icon: Icon(Icons.open_in_browser),),
@@ -184,7 +162,6 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     if(_formKey.currentState!.validate()){
       _updateApiCall();
     }
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("")));
   }
   Future onTapPickedImage()async{
     final XFile? imagePicked= await imagePicker.pickImage(source: ImageSource.camera);
@@ -219,9 +196,19 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     if(passwordTEController.text.isNotEmpty){
       requestBody['password']=passwordTEController.text.trim();
     }
-    if(_selectedImage!=null){
-      Uint8List imageBytes= await _selectedImage!.readAsBytes();
-       requestBody['photo']=base64Encode(imageBytes);
+    // if(_selectedImage!=null){
+    //   Uint8List imageBytes= await _selectedImage!.readAsBytes();
+    //    requestBody['photo']=base64Encode(imageBytes);
+    // }
+    if (_selectedImage != null) {
+      final Uint8List imageBytes =
+      await _selectedImage!.readAsBytes();
+
+      final String mimeType =
+          lookupMimeType(_selectedImage!.path) ?? 'image/jpeg';
+
+      requestBody['photo'] =
+      'data:$mimeType;base64,${base64Encode(imageBytes)}';
     }
     NetworkResponse response=await NetworkCaller.postData(url: AllUrl.updateUrl,body: requestBody);
 
@@ -235,7 +222,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
         firstName: fistNTEController.text.trim(),
         lastName: lastNTEController.text.trim(),
         mobile: mobileTEController.text.trim(),
-        photo: _selectedImage != null ? base64Encode(await _selectedImage!.readAsBytes()) : AuthController.userModel!.photo,
+        // photo: _selectedImage != null ? base64Encode(await _selectedImage!.readAsBytes()) : AuthController.userModel!.photo,
+          photo: _selectedImage != null
+              ? requestBody['photo']
+              : AuthController.userModel!.photo
       );
       passwordTEController.clear();
       if(mounted){
