@@ -14,7 +14,6 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
-
   bool _getNewTaskInProgress=false;
   List<NewTaskModel>newTaskModelData=[];
   bool _getTaskCountInProgress=false;
@@ -94,7 +93,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       for(Map<String,dynamic>listData in response.body!['data']){
         data.add(NewTaskModel.formJson(listData));
       }
-      newTaskModelData=data;
+      newTaskModelData=data.reversed.toList();
     }
     else{
       if(mounted){
@@ -114,7 +113,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     if(response.isSuccess){
       final List<TaskCountModel>taskCountList=[];
       for(Map<String,dynamic>listData2 in response.body!['data']){
-        taskCountList.add(TaskCountModel.formJson(listData2));
+        //taskCountList.add(TaskCountModel.formJson(listData2));
+        final model=TaskCountModel.formJson(listData2);
+        if(["New", "Completed", "Canceled", "Progressed"].contains(model.id)){
+          taskCountList.add(model);
+        }
       }
       taskCountModelData=taskCountList;
     }

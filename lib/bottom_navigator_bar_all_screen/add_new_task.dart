@@ -96,17 +96,18 @@ class _AddNewTaskState extends State<AddNewTask> {
         "description": descriptionTEController.text.trim(),
         "status":"New"
     };
-    NetworkResponse response=await NetworkCaller.postData(url: '${AllUrl.createNewTaskUrl}',body: requestBody);
+    NetworkResponse response=await NetworkCaller.postData(url: AllUrl.createNewTaskUrl,body: requestBody);
     elevatedButtonProgress=false;
     setState(() { });
 
     if(response.isSuccess){
-     CMSnackBar(context, 'Successfully added the task!');
+     if(mounted) CMSnackBar(context, 'Successfully added the task!');
      subjectTEController.clear();
      descriptionTEController.clear();
+     if(mounted) Navigator.pop(context, true);
     }
     else{
-      CMSnackBar(context, response.errorMessage.toString());
+      if(mounted) CMSnackBar(context, response.errorMessage.toString());
     }
   }
   @override

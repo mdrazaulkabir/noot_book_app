@@ -5,27 +5,54 @@ import 'package:note_book_app/bottom_navigator_bar_all_screen/complete_screen.da
 import 'package:note_book_app/bottom_navigator_bar_all_screen/new_task_screen.dart';
 import 'package:note_book_app/bottom_navigator_bar_all_screen/progress_screen.dart';
 import 'package:note_book_app/custom_widget/appBar_navigator.dart';
+
 class MainNavigatorScreen extends StatefulWidget {
   const MainNavigatorScreen({super.key});
-  static final String name='navigatorScreen';
+
+  static final String name = 'navigatorScreen';
 
   @override
   State<MainNavigatorScreen> createState() => _MainNavigatorScreenState();
 }
 
 class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
-  final List<Widget>navigatorScreen=[NewTaskScreen(),CompleteScreen(),CancelScreen(),ProgressScreen()];
-  late int _selectedScreen=0;
+  // final List<Widget> navigatorScreen = [
+  //   NewTaskScreen(),
+  //   CompleteScreen(),
+  //   CancelScreen(),
+  //   ProgressScreen(),
+  // ];
+  Widget getCurrentScreen() {
+    switch (_selectedScreen) {
+      case 0:
+        return NewTaskScreen(key: UniqueKey()); // creates a new instance every time
+      case 1:
+        return CompleteScreen();
+      case 2:
+        return CancelScreen();
+      case 3:
+        return ProgressScreen();
+      default:
+        return NewTaskScreen(key: UniqueKey());
+    }
+  }
+
+  late int _selectedScreen = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //AppbarNavigator(), //vvi you can take like this way because scaffold can't take this type of parameter
       //vvi
-      appBar: PreferredSize(preferredSize: Size.fromHeight(kToolbarHeight), child: AppbarNavigator()),
-      body: navigatorScreen[_selectedScreen],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: AppbarNavigator(),
+      ),
+      //body: navigatorScreen[_selectedScreen],
+      body: getCurrentScreen(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
-          _selectedScreen=value;
+          _selectedScreen = value;
           setState(() {});
         },
         currentIndex: _selectedScreen,
@@ -35,12 +62,12 @@ class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
         unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
-             // backgroundColor: Colors.greenAccent,
+            // backgroundColor: Colors.greenAccent,
             icon: Icon(Icons.receipt_outlined),
             label: "New Task",
           ),
           BottomNavigationBarItem(
-             // backgroundColor: Colors.greenAccent,
+            // backgroundColor: Colors.greenAccent,
             icon: Icon(Icons.receipt_outlined),
             label: "Complete",
           ),
@@ -58,14 +85,18 @@ class _MainNavigatorScreenState extends State<MainNavigatorScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: (){
+        onPressed: () {
           _floatingActionButton();
         },
-        child: Icon(Icons.edit,color: Colors.greenAccent,),
+        child: Icon(Icons.edit, color: Colors.greenAccent),
       ),
     );
   }
-  void _floatingActionButton(){
-    Navigator.pushNamed(context,AddNewTask.name);
+
+  void _floatingActionButton() async {
+    final result1 = await Navigator.pushNamed(context, AddNewTask.name);
+    if (result1 == true && _selectedScreen == 0) {
+      setState(() {});
+    }
   }
 }

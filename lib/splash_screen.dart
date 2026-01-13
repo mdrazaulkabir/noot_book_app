@@ -39,13 +39,13 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // center vertically
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('assets/images/pic.png'), // Correct way
+              backgroundImage: AssetImage('assets/images/pic.png'),
             ),
-            const SizedBox(height: 20), // spacing between image and text
+            const SizedBox(height: 20),
             const Text(
               'NoteBook',
               style: TextStyle(
