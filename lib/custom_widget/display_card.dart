@@ -21,6 +21,7 @@ class DisplayCard extends StatefulWidget {
 
 class _DisplayCardState extends State<DisplayCard> {
   bool editIconInProgress=false;
+  bool _deleteTaskInProgress=false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,13 @@ class _DisplayCardState extends State<DisplayCard> {
                     _editTaskShowDialog();
                   }, icon: Icon(Icons.edit,color: Colors.greenAccent,)),
                 ),
-                IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever,color: Colors.redAccent,))
+                Visibility(
+                  visible: _deleteTaskInProgress==false,
+                  replacement: CMCircularProgress(),
+                  child: IconButton(onPressed: (){
+                    _showDeleteConfirmAlertDialog();
+                  }, icon: Icon(Icons.delete_forever,color: Colors.redAccent,)),
+                )
               ],
             )
           ],
@@ -150,4 +157,46 @@ class _DisplayCardState extends State<DisplayCard> {
       }
     }
   }
+
+
+
+  Future<void>_showDeleteConfirmAlertDialog()async{
+    showDialog(context: context, builder: (ctx){
+      return AlertDialog(
+        title: const Text("Delete Task"),
+        content: const Text("Are you sure you want to delete this task!"),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: const Text("Cancel"),),
+          TextButton(onPressed: (){
+            Navigator.pop(context);
+            _deleteTask();
+          }, child: const Text("Confirm"),)
+        ],
+      );
+    });
+  }
+  Future<void>_deleteTask()async{
+    _deleteTaskInProgress=true;
+    if(mounted){
+      setState(() {});
+    }
+    NetworkResponse response=await NetworkCaller.getData(url:AllUrl.deleteTaskUrl(widget.newTaskModel.id));
+    _deleteTaskInProgress=false;
+    if(mounted){
+      setState(() {});
+    }
+    if(response.isSuccess){
+      if(mounted) CMSnackBar(context, "Task Deleted Successfully!");
+      widget.onStausUpdate();
+    }
+    else{
+      if(mounted) CMSnackBar(context, response.errorMessage?? 'Deleted falid!');
+    }
+  }
+
+
+
+
 }
