@@ -37,7 +37,26 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Image.asset('assets/images/pic.png',fit:BoxFit.cover,height: double.infinity,width: double.infinity),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // center vertically
+          children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('assets/images/pic.png'), // Correct way
+            ),
+            const SizedBox(height: 20), // spacing between image and text
+            const Text(
+              'NoteBook',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      )
     );
   }
 }
